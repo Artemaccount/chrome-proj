@@ -21,15 +21,13 @@ public class Test {
                 .sendKeys("Владивосток");
         WebDriverWait waiter = new WebDriverWait(driver, 3000);
         synchronized (waiter) {
-            waiter.wait(1000);
+            waiter.wait(1500);
         }
         driver.findElement(By.xpath("//*[@data-marker='suggest(0)']")).click();
         driver.findElement(By.xpath("//*[@data-marker='popup-location/save-button']")).click();
 
         findAndClick(driver, "//*[@data-marker ='delivery-filter']");
-
         findAndClick(driver, "//*[@data-marker ='search-filters/submit-button']");
-
         driver.findElement(By.xpath
                 ("/html/body/div[1]/div[3]/div[3]/div[3]/div[1]/div[2]/select/option[3]")).click();
 
@@ -37,20 +35,18 @@ public class Test {
         List<Item> items = new ArrayList<>();
 
         for (int i = 0; i < 3; i++) {
-            String name = (elements.get(i)
-                    .findElement(By.xpath("//*[@data-marker='item']"))
-                    .findElement(By.xpath("//*[@data-marker='item-title']")))
+            String input = (elements.get(i)
+                    .findElement(By.xpath(".//*[@data-marker='item-title']")))
                     .getAttribute("title");
-            String price = (elements.get(i)
-                    .findElement(By.xpath("//*[@data-marker='item']"))
-                    .findElement(By.xpath("//*[@itemprop='price']"))
+            String name = input.replace(" в Владивостоке","");
+            int price = Integer.parseInt(elements.get(i)
+                    .findElement(By.xpath(".//*[@itemprop='price']"))
                     .getAttribute("content"));
             Item item = new Item(name, price);
             items.add(item);
         }
         items.forEach(System.out::println);
     }
-
 
     public static void findAndClick(WebDriver driver, String xPath) {
         WebElement deliveryButton = driver.findElement(By.xpath(xPath));

@@ -1,8 +1,8 @@
 public class Item {
     String name;
-    String price;
+    int price;
 
-    public Item(String name, String price) {
+    public Item(String name, int price) {
         this.name = name;
         this.price = price;
     }
